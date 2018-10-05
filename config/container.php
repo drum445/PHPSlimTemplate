@@ -20,3 +20,15 @@ $container['db'] = function ($c) {
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     return $pdo;
 };
+
+$container['notAllowedHandler'] = function ($c) {
+    return function ($request, $response) use ($c) {
+        return $c['response']->withStatus(405);
+    };
+};
+
+$container['notFoundHandler'] = function ($c) {
+    return function ($request, $response) use ($c) {
+        return $c['response']->withStatus(404);
+    };
+};
