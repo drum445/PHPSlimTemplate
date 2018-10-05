@@ -1,9 +1,9 @@
 <?php
 
+require_once __DIR__ . '/../handlers/customer.php';
+
 $app->get('/customer', function($request, $response) {
-    $sql = "SELECT * FROM customer;";
-    $stmt = $this->db->query($sql);
-    $customers = $stmt->fetchAll();
+	$customers = CustomerHandler::getAll($this->db);
 
     return $response->withJson($customers);
 });
