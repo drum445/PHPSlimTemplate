@@ -32,3 +32,15 @@ $container['notFoundHandler'] = function ($c) {
         return $c['response']->withStatus(404);
     };
 };
+
+$container['HomeController'] = function ($c) {
+    return new App\Controllers\HomeController($c);
+};
+
+$container['PersonController'] = function ($c) {
+    return new App\Controllers\PersonController($c);
+};
+
+$container['CustomerController'] = function ($c) {
+    return new App\Controllers\CustomerController($c);
+};
