@@ -1,27 +1,18 @@
 <?php
 // auth middleware
 $app->add(function ($request, $response, callable $next) {
-    $uri = $request->getUri();
-    $path = $uri->getPath();
+    $skip = ["", "person"];
+
+    $path = $request->getUri()->getPath();
+    $base = explode("/", $path, 2)[0];
 
     # if not auth'd and route requires auth: 401
-    if(!isset($_SESSION["id"]) && !can_skip($path)) {
+    if(!isset($_SESSION["id"]) && !in_array($base, $skip)) {
         return $response->withStatus(401);
     }
 
     return $next($request, $response);
 });
-
-function can_skip($path) {
-    # paths that do not need auth
-    $skip = ["home", "person"];
-
-    $arr = explode("/", $path, 2);
-    $base = $arr[0];
-
-    return in_array($base, $skip);
-}
-
 
 // trailing slash middleware
 $app->add(function ($request, $response, callable $next) {

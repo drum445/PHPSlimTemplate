@@ -1,6 +1,6 @@
 <?php
 
-$app->get('/home', 'HomeController:landing');
+$app->get('/', 'HomeController:landing');
 
 $app->post('/person', 'PersonController:login');
 $app->get('/person', 'PersonController:check');
