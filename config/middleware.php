@@ -14,7 +14,7 @@ $app->add(function ($request, $response, callable $next) {
 
 function can_skip($path) {
     # paths that do not need auth
-    $skip = ["", "person"];
+    $skip = ["home", "person"];
 
     $arr = explode("/", $path, 2);
     $base = $arr[0];

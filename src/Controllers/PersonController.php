@@ -6,12 +6,7 @@ class PersonController extends Controller {
 
 	public function check($request, $response) {
 	    if(isset($_SESSION["id"])) {
-	        $resp = array(
-	                        "token" => session_id(),
-	                        "username" => $_SESSION["username"]
-	                    );
-
-	        return $response->withJson($resp);
+			return $response->withJson($this->getToken());
 	    }
 
 	    return $response->withStatus(401);		
@@ -23,7 +18,7 @@ class PersonController extends Controller {
 	    if($body["username"] == "drum") {
 	        $_SESSION["id"] = $body["username"];
 	        $_SESSION["username"] = $body["username"];
-	        return $response->withStatus(204);
+	        return $response->withJson($this->getToken());
 	    }
 
 	    return $response->withStatus(401);		
@@ -32,5 +27,12 @@ class PersonController extends Controller {
 	public function logout($request, $response) {
 	    session_destroy();
 	    return $response->withStatus(204);		
+	}
+
+	private function getToken() {
+        return array(
+                "token" => session_id(),
+                "username" => $_SESSION["username"]
+            );
 	}
 }
