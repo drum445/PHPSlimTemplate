@@ -4,15 +4,24 @@ $app->add(function ($request, $response, callable $next) {
     $uri = $request->getUri();
     $path = $uri->getPath();
 
-    # paths that do not need auth
-    $skip = ["/", "person"];
-
-    if(!isset($_SESSION["id"]) && !in_array($path, $skip)) {
+    # if not auth'd and route requires auth: 401
+    if(!isset($_SESSION["id"]) && !can_skip($path)) {
         return $response->withStatus(401);
     }
 
     return $next($request, $response);
 });
+
+function can_skip($path) {
+    # paths that do not need auth
+    $skip = ["", "person"];
+
+    $arr = explode("/", $path, 2);
+    $base = $arr[0];
+
+    return in_array($base, $skip);
+}
+
 
 // trailing slash middleware
 $app->add(function ($request, $response, callable $next) {
